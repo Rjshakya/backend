@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { userrouter } from "./routes/user.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import helmet from "helmet"
+import helmet from "helmet";
 
 import path from "path";
 
@@ -12,16 +12,22 @@ import { crudrouter } from "./routes/crud.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const mongodbURL = String(process.env.MOONGOOSE_URL) || "";
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/mernBlog")
+  .connect(mongodbURL)
   .then(() => console.log(`monngoDB connected`))
   .catch(() => console.log(`mongoDB failed to connect`));
 
 // middlewares
 
-app.use(helmet({crossOriginEmbedderPolicy:false , crossOriginResourcePolicy:{policy:"cross-origin"}}))
-app.use(cors({ origin:"http://localhost:5173", credentials: true }));
+app.use(
+  helmet({
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(express.static(path.resolve("./public")));
 app.use(cookieParser());
