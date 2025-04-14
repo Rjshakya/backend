@@ -12,7 +12,7 @@ const blogScheme = new mongoose.Schema({
         
     }
 
-})
+} ,{timestamps:true})
 
 
 const Blog = mongoose.model("Blog" , blogScheme)

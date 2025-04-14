@@ -13,11 +13,12 @@ import { crudrouter } from "./routes/crud.js";
 const app = express();
 const PORT = process.env.PORT || 5000;
 const mongodbURL = String(process.env.MOONGOOSE_URL) || "";
+const mongoDB_Cloud = String(process.env.MONGO_CLOUD_URL);
 
 mongoose
-  .connect(mongodbURL)
+  .connect(mongoDB_Cloud)
   .then(() => console.log(`monngoDB connected`))
-  .catch(() => console.log(`mongoDB failed to connect`));
+  .catch((err) => console.log(`mongoDB failed to connect` , err))
 
 // middlewares
 

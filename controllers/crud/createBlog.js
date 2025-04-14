@@ -4,9 +4,6 @@ const createBlog = async (req, res) => {
   const user = req?.user;
   const { Title, Content } = req?.body;
   const Thumbnail = req.file;
- 
-
-  console.log(Thumbnail?.filename, user, Title, Content);
 
   if (!Title || !Content || !user || !Thumbnail?.filename) {
     return res.status(400).json({
@@ -17,7 +14,6 @@ const createBlog = async (req, res) => {
 
   const imgPath = `uploads/${Thumbnail?.filename}`;
 
-  // filename: '1744381203668-f3fde379fad1e39fa2b8cda99fa0fc0b.jpg',
 
   const blog = await Blog.create({
     Title: Title,
@@ -37,7 +33,7 @@ const createBlog = async (req, res) => {
     success: true,
     msg: "blog created successfully",
     data: blog,
-  })
+  });
 };
 
 export default createBlog;
