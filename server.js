@@ -15,7 +15,7 @@ const PORT = process.env.PORT;
 const mongoDB_Cloud = String(process.env.MONGO_URL);
 
 mongoose
-  .connect(mongoDB_Cloud)
+  .connect(mongoDB_Cloud, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log(`mongoDB connected`))
   .catch((err) => console.log(`mongoDB failed to connect`, err));
 
