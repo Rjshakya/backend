@@ -1,14 +1,6 @@
 import Blog from "../../models/blogs.js";
 
 const readAllBlogs = async (req, res) => {
-  const user = req?.user;
-
-  if (!user.id) {
-    res.status(401).json({
-      success: false,
-      msg: "user not auhthenticated",
-    });
-  }
 
   const findAllBlogs = await Blog.find({}).populate("createdBy");
   if (!findAllBlogs) {

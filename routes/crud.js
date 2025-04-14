@@ -33,7 +33,7 @@ crudrouter.post(
   createBlog
 );
 
-crudrouter.get("/blogs", checkUserAuthenticated, readAllBlogs);
+crudrouter.get("/blogs", readAllBlogs);
 crudrouter.get("/blog", checkUserAuthenticated, readSingleBlog);
 crudrouter.get("/user/blogs", checkUserAuthenticated, getUserBlogs);
 
@@ -53,4 +53,4 @@ crudrouter.patch(
 
 crudrouter.delete("/blog/delete", checkUserAuthenticated, handleDeleteBlog);
 
-export { crudrouter };
+export { crudrouter , upload };

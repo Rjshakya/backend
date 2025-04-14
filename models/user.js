@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
     },
     role: {
       type: String,
@@ -25,11 +24,18 @@ const UserSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    verifiedEmail: {
+      type: String,
+    },
+    OauthProvider: {
+      type: String,
+    },
+    picture: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
-
-
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();

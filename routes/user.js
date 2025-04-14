@@ -5,6 +5,7 @@ import {
   handleUserLogout,
   handleUserRegistration,
 } from "../controllers/user.js";
+import { googleRegistration } from "../controllers/google.auth.js";
 
 const userrouter = express.Router();
 
@@ -13,11 +14,7 @@ userrouter.post("/login", handleUserLogin);
 userrouter.post("/logout", handleUserLogout);
 userrouter.get("/refreshToken", handleRefreshToken);
 
+userrouter.post("/auth/google", googleRegistration);
 
-// userrouter.post('/' , (req , res) => {
-//   req.headers.authorization
-// })
-
-// crud operations
 
 export { userrouter };
