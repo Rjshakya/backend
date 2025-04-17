@@ -11,8 +11,10 @@ import path from "path";
 import { crudrouter } from "./routes/crud.js";
 
 const app = express();
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 const mongoDB_Cloud = String(process.env.MONGO_URL);
+
+// process.env.FRONTEND_URL
 
 mongoose
   .connect(mongoDB_Cloud, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -27,7 +29,7 @@ app.use(
     crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true}));
+app.use(cors({ origin: "*", credentials: true }));
 
 app.use(express.static(path.resolve("./public")));
 app.use(cookieParser());
