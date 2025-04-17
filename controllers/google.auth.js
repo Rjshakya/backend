@@ -11,6 +11,7 @@ const oAuth2Client = new OAuth2Client(
 
 const googleRegistration = async (req, res) => {
   const { code } = req?.body;
+  
 
   try {
     // get access token for the code that u received from frontend
