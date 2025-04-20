@@ -5,14 +5,17 @@ const createBlog = async (req, res) => {
   const { Title, Content } = req?.body;
   const Thumbnail = req.file;
 
-  if (!Title || !Content || !user || !Thumbnail?.filename) {
+  console.log(Thumbnail , req.file_buffer);
+  
+
+  if (!Title || !Content || !user) {
     return res.status(400).json({
       success: false,
       msg: "Bad request",
     });
   }
 
-  const imgPath = `uploads/${Thumbnail?.filename}`;
+  const imgPath = Thumbnail?.location
 
 
   const blog = await Blog.create({
@@ -23,7 +26,7 @@ const createBlog = async (req, res) => {
   });
 
   if (!blog) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       msg: "failed to create Blog",
     });

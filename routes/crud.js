@@ -13,16 +13,37 @@ import {
   handleUpdateBlogThumbnail,
 } from "../controllers/crud/updateBlog.js";
 import handleDeleteBlog from "../controllers/crud/deleteBlog.js";
+import s3BucketInstance from "../services/aws.s3.js";
+import multerS3 from "multer-s3";
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.resolve("./public/uploads"));
-  },
-  filename: function (req, file, cb) {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
+// multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.resolve("./public/uploads"));
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, `${Date.now()}-${file.originalname}`);
+//   },
+// });
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3BucketInstance.s3,
+    bucket: "mythinkappbucket",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      const path = `thumbnails/${Date.now().toString()}`
+      cb(null, path);
+    },
+    contentType: function (req, file, cb) {
+      cb(null, file.mimetype);
+    },
+    acl:'public-read',
+    
+   
+  }),
 });
-const upload = multer({ storage: storage });
 
 const crudrouter = express.Router();
 
@@ -53,4 +74,4 @@ crudrouter.patch(
 
 crudrouter.delete("/blog/delete", checkUserAuthenticated, handleDeleteBlog);
 
-export { crudrouter , upload };
+export { crudrouter, upload };
