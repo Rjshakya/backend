@@ -15,6 +15,15 @@ import {
 import handleDeleteBlog from "../controllers/crud/deleteBlog.js";
 import s3BucketInstance from "../services/aws.s3.js";
 import multerS3 from "multer-s3";
+import { readComments } from "../controllers/commentCrud/read.comment.js";
+import {
+  createComment,
+  createReply,
+} from "../controllers/commentCrud/create.comment.js";
+import {
+  deleteBlogComments,
+  deleteMyComment,
+} from "../controllers/commentCrud/delete.comment.js";
 
 // multer.diskStorage({
 //   destination: function (req, file, cb) {
@@ -33,20 +42,19 @@ const upload = multer({
       cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
-      const path = `thumbnails/${Date.now().toString()}`
+      const path = `thumbnails/${Date.now().toString()}`;
       cb(null, path);
     },
     contentType: function (req, file, cb) {
       cb(null, file.mimetype);
     },
-    acl:'public-read',
-    
-   
+    acl: "public-read",
   }),
 });
 
 const crudrouter = express.Router();
 
+// post
 crudrouter.post(
   "/create",
   checkUserAuthenticated,
@@ -54,10 +62,19 @@ crudrouter.post(
   createBlog
 );
 
+// comments
+crudrouter.post("/create/comment", checkUserAuthenticated, createComment);
+crudrouter.post("/create/comment/reply", checkUserAuthenticated, createReply);
+
+// get
 crudrouter.get("/blogs", readAllBlogs);
 crudrouter.get("/blog", checkUserAuthenticated, readSingleBlog);
 crudrouter.get("/user/blogs", checkUserAuthenticated, getUserBlogs);
 
+// comments
+crudrouter.get("/comments", checkUserAuthenticated, readComments);
+
+// put
 crudrouter.put(
   "/user/blog/update",
 
@@ -65,6 +82,7 @@ crudrouter.put(
   handleUpdateBlog
 );
 
+// patch
 crudrouter.patch(
   "/user/blog/update/Thumbnail",
   upload.single("Thumbnail"),
@@ -72,6 +90,17 @@ crudrouter.patch(
   handleUpdateBlogThumbnail
 );
 
+// delete
 crudrouter.delete("/blog/delete", checkUserAuthenticated, handleDeleteBlog);
+crudrouter.delete(
+  "/delete/blog/comments",
+  checkUserAuthenticated,
+  deleteBlogComments
+);
+crudrouter.delete(
+  "/delete/mycomment/blog",
+  checkUserAuthenticated,
+  deleteMyComment
+);
 
 export { crudrouter, upload };
