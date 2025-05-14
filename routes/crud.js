@@ -1,8 +1,7 @@
-import createBlog from "../controllers/crud/createBlog.js";
+import createBlog, { addImgInContent } from "../controllers/crud/createBlog.js";
 import { checkUserAuthenticated } from "../middlewares/authMiddleware.js";
 import express from "express";
 import multer from "multer";
-import path from "path";
 import {
   getUserBlogs,
   readAllBlogs,
@@ -12,7 +11,9 @@ import {
   handleUpdateBlog,
   handleUpdateBlogThumbnail,
 } from "../controllers/crud/updateBlog.js";
-import handleDeleteBlog from "../controllers/crud/deleteBlog.js";
+import handleDeleteBlog, {
+  handleContentImgsDelete,
+} from "../controllers/crud/deleteBlog.js";
 import s3BucketInstance from "../services/aws.s3.js";
 import multerS3 from "multer-s3";
 import { readComments } from "../controllers/commentCrud/read.comment.js";
@@ -52,6 +53,24 @@ const upload = multer({
   }),
 });
 
+const contentImgUpload = multer({
+  storage: multerS3({
+    s3: s3BucketInstance.s3,
+    bucket: "mythinkappbucket",
+    metadata: function (req, file, cb) {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: function (req, file, cb) {
+      const path = `ImagesInBlogContent/${Date.now().toString()}`;
+      cb(null, path);
+    },
+    contentType: function (req, file, cb) {
+      cb(null, file.mimetype);
+    },
+    acl: "public-read",
+  }),
+});
+
 const crudrouter = express.Router();
 
 // post
@@ -60,6 +79,13 @@ crudrouter.post(
   checkUserAuthenticated,
   upload.single("Thumbnail"),
   createBlog
+);
+
+crudrouter.post(
+  "/add/imageInContent",
+  checkUserAuthenticated,
+  contentImgUpload.single("Image"),
+  addImgInContent
 );
 
 // comments
@@ -88,6 +114,12 @@ crudrouter.patch(
   upload.single("Thumbnail"),
   checkUserAuthenticated,
   handleUpdateBlogThumbnail
+)
+
+crudrouter.patch(
+  "/patch/delete/imageInContent",
+  checkUserAuthenticated,
+  handleContentImgsDelete
 );
 
 // delete
@@ -102,5 +134,7 @@ crudrouter.delete(
   checkUserAuthenticated,
   deleteMyComment
 );
+
+
 
 export { crudrouter, upload };

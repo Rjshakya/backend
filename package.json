@@ -1,4 +1,26 @@
 {
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://github.com/Rjshakya/backend#readme",
+  "bugs": {
+    "url": "https://github.com/Rjshakya/backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rjshakya/backend.git"
+  },
+  "license": "ISC",
+  "author": "raj-shakya",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "build": "node app.js",
+    "dev": "nodemon app.js"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",
     "@aws-sdk/s3-request-presigner": "^3.787.0",
@@ -7,26 +29,14 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
     "google-auth-library": "^9.15.1",
     "helmet": "^8.1.0",
+    "jsdom": "^26.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
     "multer": "^1.4.5-lts.2",
     "multer-s3": "^3.0.1",
     "nodemon": "^3.1.9"
-  },
-  "name": "backend",
-  "version": "1.0.0",
-  "main": "server.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "build": "node app.js",
-    "dev": "nodemon app.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  }
 }

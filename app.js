@@ -5,6 +5,7 @@ import { userrouter } from "./routes/user.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
+import { rateLimit } from 'express-rate-limit'
 
 import path from "path";
 
@@ -36,7 +37,18 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use("/user", userrouter);
-app.use("/api", crudrouter);
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  limit: 200,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: 'Too many requests please wait for 15 minutes'
+})
+
+app.use(limiter)
+
+app.use("/user", userrouter)
+app.use("/api", crudrouter)
+
 
 app.listen(PORT, (err) => console.log(`Server listening at ${PORT}`));
