@@ -1,6 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 
-const commentScheme = new Schema({
+const commentScheme = new Schema(
+  
+{
   ToBlog: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Blog",
@@ -26,7 +28,10 @@ const commentScheme = new Schema({
       parentID: { type: mongoose.Schema.Types.ObjectId, ref: "comment" },
     },
   ],
-});
+  
+},
+
+{timestamps:true});
 
 const Comment = mongoose.model("comment", commentScheme);
 export default Comment;

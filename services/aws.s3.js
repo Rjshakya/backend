@@ -4,7 +4,8 @@ import {
   GetObjectCommand,
   ListObjectsV2Command,
   DeleteObjectCommand,
-  
+  DeleteObjectsCommand
+
 } from "@aws-sdk/client-s3";
 import {
   S3RequestPresigner,
@@ -55,6 +56,28 @@ class s3Bucket {
     } catch (error) {
       throw error;
     }
+  }
+
+  async deleteMultipleFile(objects) {
+
+
+    let data = objects
+
+    console.log(data)
+    const params = {
+      Bucket: this.bucketName,
+      Delete: {
+        Objects: data,
+      }
+    }
+
+    try {
+      const res = await this.s3.send(new DeleteObjectsCommand(params))
+      return res
+    } catch (error) {
+      throw error
+    }
+
   }
 }
 
