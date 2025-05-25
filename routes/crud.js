@@ -94,11 +94,11 @@ crudrouter.post("/create/comment/reply", checkUserAuthenticated, createReply);
 
 // get
 crudrouter.get("/blogs", readAllBlogs);
-crudrouter.get("/blog", checkUserAuthenticated, readSingleBlog);
+crudrouter.get("/blog", readSingleBlog);
 crudrouter.get("/user/blogs", checkUserAuthenticated, getUserBlogs);
 
 // comments
-crudrouter.get("/comments", checkUserAuthenticated, readComments);
+crudrouter.get("/comments", readComments);
 
 // put
 crudrouter.put(
