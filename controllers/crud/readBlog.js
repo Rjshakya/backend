@@ -69,7 +69,7 @@ const getUserBlogs = async (req, res) => {
   }
 
   try {
-    const blogs = await Blog.find({ createdBy: user.id }).populate("createdBy");
+    const blogs = await Blog.find({ createdBy: user.id }).populate("createdBy").sort({createdAt : -1})
     if (!blogs) {
       return res.status(400).json({
         success: false,
