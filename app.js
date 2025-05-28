@@ -37,7 +37,7 @@ async function init() {
       contentSecurityPolicy: process.env.NODE_ENV !== "production"
     })
   );
-  app.use(cors({ origin: [process.env.FRONTEND_URL, "https://studio.apollographql.com"], credentials: true }));
+  app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
   app.use(express.static(path.resolve("./public")));
   app.use(cookieParser());
