@@ -5,7 +5,6 @@ const createBlog = async (req, res) => {
   const { Title, Content } = req?.body;
   const Thumbnail = req.file;
 
-  console.log(Thumbnail , req.file_buffer);
   
 
   if (!Title || !Content || !user) {
